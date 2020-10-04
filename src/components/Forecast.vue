@@ -1,20 +1,15 @@
 <template>
-  <forecast />
+  <div></div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Forecast from "./components/Forecast.vue";
+import fetchWeather from "../fetch_weather";
 
 export default defineComponent({
-  name: "App",
-  components: {
-    Forecast
-  },
   setup() {
+    const forecast = fetchWeather();
     return {};
   }
 });
 </script>
-
-<style></style>
