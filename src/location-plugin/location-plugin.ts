@@ -1,4 +1,4 @@
-import { Plugin } from "vue";
+import { inject, Plugin } from "vue";
 
 /**
  * Get the users current location using the HTML5 GeoLocation API.
@@ -15,11 +15,8 @@ function getLocation(): Promise<Position> {
   });
 }
 
-/** Type of the location function */
-export type LocationFunction = typeof getLocation;
-
 /** Symbol to access the location function */
-export const locationSymbol = Symbol("location");
+const locationSymbol = Symbol("location");
 
 const LocationPlugin: Plugin = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -30,5 +27,20 @@ const LocationPlugin: Plugin = {
     app.provide(locationSymbol, getLocation);
   }
 };
+
+/** Type of the location function */
+type LocationFunction = typeof getLocation;
+
+/** Function to use the location function from the API */
+export function useLocation() {
+  /** Function to get the geolocation */
+  const locationFunction: LocationFunction | undefined = inject(locationSymbol);
+
+  if (!locationFunction) {
+    throw new Error("Could not get inject LocationPlugin");
+  }
+
+  return locationFunction;
+}
 
 export default LocationPlugin;

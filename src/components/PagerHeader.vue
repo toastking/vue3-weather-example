@@ -4,14 +4,14 @@
 </template>
 
 <script lang="ts">
-import { LocationFunction, locationSymbol } from "@/location-plugin/location-plugin";
+import { useLocation } from "@/location-plugin/location-plugin";
 import { Client } from "@googlemaps/google-maps-services-js";
 import Vue, { computed, defineComponent, inject, onMounted, ref } from "vue";
 
 export default defineComponent({
   setup() {
     /** Function to get the geolocation */
-    const getLocation: LocationFunction | undefined = inject(locationSymbol);
+    const getLocation = useLocation();
     /** The current address based on the user's location */
     const address = ref("");
 
